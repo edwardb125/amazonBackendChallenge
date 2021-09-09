@@ -1,0 +1,46 @@
+service: erf-hem-backend-challenge
+frameworkVersion: '2'
+
+provider:
+  name: aws
+  runtime: go1.x
+  lambdaHashingVersion: 20201221
+
+
+  stage: api
+  region: us-west-1
+
+  environment:
+    ACCESS_TOKEN: ${env:AWS_ACCESS_KEY_ID }
+    SECRET_KEY: ${env:AWS_SECRET_ACCESS_KEY}
+    TABLE_NAME: Devices
+
+package:
+  patterns:
+    - '!./**'
+    - ./bin/**
+
+functions:
+  backend:
+    handler: bin/hello
+    events:
+      - http:
+          path: /{proxy+}
+          method: any
+          cors: true
+
+resources:
+  Resources:
+    UsersTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+          TableName: Devices
+          AttributeDefinitions:
+            - AttributeName: id
+              AttributeType: s
+            KeySchema:
+              - AttributeName: id
+                KeyType: HASH
+            ProvisionedThroughput:
+              ReadCapacityUnits: 5
+              WriteCapacityUnits: 5

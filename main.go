@@ -6,8 +6,6 @@ import (
 	"github.com/aws/aws-lambda-go/lambda"
 	"github.com/awslabs/aws-lambda-go-api-proxy/gorillaMux"
 	"github.com/gorilla/mux"
-
-
 )
 
 func Handler(req events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error){

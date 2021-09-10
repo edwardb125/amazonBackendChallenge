@@ -42,7 +42,6 @@ func SetDevice(w http.ResponseWriter, r *http.Request){
 		CreateError(w, "server error", http.StatusInternalServerError)
 		return
 	}
-
 	w.WriteHeader(http.StatusCreated)
 	result, _ := json.Marshal(device)
 	_, _ = w.Write(result)

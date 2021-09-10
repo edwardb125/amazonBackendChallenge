@@ -20,12 +20,12 @@ func GetDevice(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	vars := mux.Vars(r)
+	vars := mux.Vars(r) // should change//////////////////////////////////////////
 	service := service.NewGetService(dynamoDB.NewDeviceDB(db))
 	item, err := service.GetDevice(vars["id"])
 	if err != nil {
 		if err.Error() == "server error" {
-			CreateError(w, "internal server error", http.StatusInternalServerError)
+			CreateError(w, "server error", http.StatusInternalServerError)
 		} else {
 			CreateError(w, "device not found", http.StatusNotFound)
 		}

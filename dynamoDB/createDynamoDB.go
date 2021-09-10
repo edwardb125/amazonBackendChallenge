@@ -27,7 +27,9 @@ func CreateError(w http.ResponseWriter, err string, status int){
 }
 
 func GetDynamoDB() (*dynamodb.DynamoDB, error){
-	accessToken := os.Getenv("ACCESS_TOKEN") // should change
+
+	// Set environment Token
+	accessToken := os.Getenv("ACCESS_TOKEN")
 	secretKey := os.Getenv("SECRET_KEY")
 	region := os.Getenv("AWS_REGION")
 	credential := credentials.NewStaticCredentials(accessToken, secretKey, "")

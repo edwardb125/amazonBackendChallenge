@@ -24,5 +24,6 @@ func SetDevice(w http.ResponseWriter, r *http.Request) {
 		dynamoDB.CreateError(w, "invalid device attribute", http.StatusBadRequest)
 		return
 	}
+
 	dynamoDB.DoWithDynamoDB(w,device)
 }

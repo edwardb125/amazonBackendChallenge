@@ -61,7 +61,7 @@ func DeleteItem(t *testing.T, id string) {
 	}
 	deleteItemInput := &dynamodb.DeleteItemInput{
 		TableName: aws.String(os.Getenv("TABLE_NAME")),
-		KEY: map[string]*dynamodb.AttributeValue{
+		Key: map[string]*dynamodb.AttributeValue{
 			"id": &dynamodb.AttributeValue{
 				S: aws.String(id),
 			},

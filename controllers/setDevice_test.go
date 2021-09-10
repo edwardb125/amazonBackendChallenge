@@ -35,7 +35,7 @@ func TestGetDeviceController(t *testing.T) {
 			Message: "invalid device info",
 		}},
 		{name: "server error", input: input, status: 500, output: Error{
-			Message: "internal server error",
+			Message: "server error",
 		}},
 		{name: "ok", input: input, status: 201, output: input},
 	}

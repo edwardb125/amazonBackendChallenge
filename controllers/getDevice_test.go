@@ -32,7 +32,7 @@ func TestName(t *testing.T) {
 		output interface{}
 	}{
 		{name: "server error", status: 500, output: Error{
-			Message: "internal server error",
+			Message: "server error",
 		}, id: "01001010100101"},
 		{name: "not found", status: 404, output: Error{
 			Message: "device not found",

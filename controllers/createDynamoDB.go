@@ -1,4 +1,4 @@
-package dynamoDB
+package controllers
 
 import (
 	"amazonBackendChallenge/models"

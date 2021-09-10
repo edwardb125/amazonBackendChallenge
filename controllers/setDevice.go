@@ -3,6 +3,7 @@ package controllers
 import (
 	"amazonBackendChallenge/dynamoDB"
 	"amazonBackendChallenge/models"
+	"amazonBackendChallenge/service"
 	"encoding/json"
 	"github.com/go-playground/validator/v10"
 	"log"
@@ -21,9 +22,29 @@ func SetDevice(w http.ResponseWriter, r *http.Request) {
 	err := validate.Struct(device)
 	if err != nil {
 		log.Println(err)
-		dynamoDB.CreateError(w, "invalid device attribute", http.StatusBadRequest)
+		CreateError(w, "invalid device attribute", http.StatusBadRequest)
 		return
 	}
 
-	dynamoDB.DoWithDynamoDB(w,device)
+	//dynamoDB.DoWithDynamoDB(w,device)
+	//connect to the dynamoDB
+	db, err := GetDynamoDB() // this function should be created
+	if err != nil {
+		log.Println(err)
+		CreateError(w, "server error", http.StatusInternalServerError)
+		return
+	}
+
+	//send data to dynamoDB
+	service := service.NewCreateService(dynamoDB.NewDeviceDB(db))
+	err = service.CreateDevice(device)
+	if err != nil{
+		log.Println(err)
+		CreateError(w, "server error", http.StatusInternalServerError)
+		return
+	}
+	w.WriteHeader(http.StatusCreated)
+	result, _ := json.Marshal(device)
+	_, _ = w.Write(result)
 }
+

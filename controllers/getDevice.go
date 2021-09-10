@@ -13,10 +13,10 @@ func GetDevice(w http.ResponseWriter, r *http.Request) {
 	w.Header().Add("Content-Type", "application/json")
 
 	// connect to dynamoDB
-	db, err := dynamoDB.GetDynamoDB()
+	db, err := GetDynamoDB()
 	if err != nil {
 		log.Println(err)
-		dynamoDB.CreateError(w, "server error", http.StatusInternalServerError)
+		CreateError(w, "server error", http.StatusInternalServerError)
 		return
 	}
 
@@ -25,9 +25,9 @@ func GetDevice(w http.ResponseWriter, r *http.Request) {
 	item, err := service.GetDevice(vars["id"])
 	if err != nil {
 		if err.Error() == "server error" {
-			dynamoDB.CreateError(w, "server error", http.StatusInternalServerError)
+			CreateError(w, "server error", http.StatusInternalServerError)
 		} else {
-			dynamoDB.CreateError(w, "device not found", http.StatusNotFound)
+			CreateError(w, "device not found", http.StatusNotFound)
 		}
 		return
 	}

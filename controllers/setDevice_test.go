@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"amazonBackendChallenge/dynamoDB"
 	//"./createDynamoDB"
 	"amazonBackendChallenge/models"
 	"bytes"
@@ -32,10 +31,10 @@ func TestGetDeviceController(t *testing.T) {
 	}{
 		{name: "invalid input", input: models.Device{
 			Id: "1",
-		}, status: 400, output: dynamoDB.Error{
+		}, status: 400, output: Error{
 			Message: "invalid device info",
 		}},
-		{name: "server error", input: input, status: 500, output: dynamoDB.Error{
+		{name: "server error", input: input, status: 500, output: Error{
 			Message: "internal server error",
 		}},
 		{name: "ok", input: input, status: 201, output: input},
@@ -62,14 +61,14 @@ func TestGetDeviceController(t *testing.T) {
 				_ = json.Unmarshal(rr.Body.Bytes(), &device)
 				assert.Equal(t, test.output.(models.Device), device)
 			} else {
-				var err dynamoDB.Error
+				var err Error
 				_ = json.Unmarshal(rr.Body.Bytes(), &err)
-				assert.Equal(t, test.output.(dynamoDB.Error), err)
+				assert.Equal(t, test.output.(Error), err)
 			}
 
 		})
 	}
 	//clear data in dynamoDB
-	dynamoDB.DeleteItem(t, input.Id)
+	DeleteItem(t, input.Id)
 
 }

@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"amazonBackendChallenge/dynamoDB"
 	"amazonBackendChallenge/models"
 	"encoding/json"
 	"github.com/gorilla/mux"
@@ -23,7 +22,7 @@ func TestName(t *testing.T) {
 	_ = os.Setenv("AWS_REGION", "us-west-2")
 	_ = os.Setenv("TABLE_NAME", "Devices")
 
-	dynamoDB.CreateItem(t, input)
+	CreateItem(t, input)
 	_ = os.Unsetenv("AWS_REGION")
 	_ = os.Unsetenv("TABLE_NAME")
 	tests := []struct {
@@ -32,10 +31,10 @@ func TestName(t *testing.T) {
 		status int
 		output interface{}
 	}{
-		{name: "server error", status: 500, output: dynamoDB.Error{
+		{name: "server error", status: 500, output: Error{
 			Message: "internal server error",
 		}, id: "01001010100101"},
-		{name: "not found", status: 404, output: dynamoDB.Error{
+		{name: "not found", status: 404, output: Error{
 			Message: "device not found",
 		}, id: "0101010105010fd"},
 		{name: "ok", status: 200, output: input, id: input.Id},
@@ -62,13 +61,13 @@ func TestName(t *testing.T) {
 				_ = json.Unmarshal(rr.Body.Bytes(), &device)
 				assert.Equal(t, test.output.(models.Device), device)
 			} else {
-				var message dynamoDB.Error
+				var message Error
 				_ = json.Unmarshal(rr.Body.Bytes(), &message)
-				assert.Equal(t, test.output.(dynamoDB.Error), message)
+				assert.Equal(t, test.output.(Error), message)
 
 			}
 		})
 	}
 
-	dynamoDB.DeleteItem(t, input.Id)
+	DeleteItem(t, input.Id)
 }

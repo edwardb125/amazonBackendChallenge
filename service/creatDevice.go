@@ -1,4 +1,4 @@
-package deviceService
+package service
 
 import (
 	"amazonBackendChallenge/dynamoDB"

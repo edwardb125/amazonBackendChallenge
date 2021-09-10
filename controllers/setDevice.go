@@ -1,9 +1,9 @@
 package controllers
 
 import (
-	"amazonBackendChallenge/deviceService"
 	"amazonBackendChallenge/dynamoDB"
 	"amazonBackendChallenge/models"
+	service2 "amazonBackendChallenge/service"
 	"encoding/json"
 	"github.com/go-playground/validator/v10"
 	"log"
@@ -35,7 +35,7 @@ func SetDevice(w http.ResponseWriter, r *http.Request){
 	}
 
 	//send data to dynamoDB
-	service := deviceService.NewCreateService(dynamoDB.NewDeviceDB(db))
+	service := service2.NewCreateService(dynamoDB.NewDeviceDB(db))
 	err = service.CreateDevice(device)
 	if err != nil{
 		log.Println(err)

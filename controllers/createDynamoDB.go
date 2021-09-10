@@ -1,7 +1,9 @@
 package controllers
 
 import (
-	_ "amazonBackendChallenge/deviceService"
+	"amazonBackendChallenge/models"
+	"amazonBackendChallenge/service"
+	_ "amazonBackendChallenge/service"
 	"encoding/json"
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/credentials"
@@ -10,6 +12,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"testing"
 	_ "testing"
 )
 
@@ -42,32 +45,32 @@ func GetDynamoDB() (*dynamodb.DynamoDB, error){
 	return dynamodb.New(awsSession), nil
 }
 
-//func CreateItem(t *testing.T, item models.Device){
-//	db, err := GetDynamoDB()
-//	if err != nil{
-//		t.Fatal("error occurred while connecting to dynamodb")
-//	}
-//	err = deviceService.NewCreateService(db).CreateDevice(item)
-//	if err != nil {
-//		t.Fatal("error occurred while device creating")
-//	}
-//}
+func CreateItem(t *testing.T, item models.Device){
+	db, err := GetDynamoDB()
+	if err != nil{
+		t.Fatal("error occurred while connecting to dynamodb")
+	}
+	err = service.NewCreateService(db).CreateDevice(item)
+	if err != nil {
+		t.Fatal("error occurred while device creating")
+	}
+}
 
-//func DeleteItem(t *testing.T, id string) {
-//	db, err := GetDynamoDB()
-//	if err != nil{
-//		t.Fatal("error occurred while connecting to dynamodb")
-//	}
-//	deleteItemInput := &dynamodb.DeleteItemInput{
-//		TableName: aws.String(os.Getenv("TABLE_NAME")),
-//		KEY: map[string]*dynamodb.AttributeValue{
-//			"id": &dynamodb.AttributeValue{
-//				S: aws.String(id),
-//			},
-//		},
-//	}
-//	_, err = db.DeleteItem(deleteItemInput)
-//	if err != nil{
-//		t.Fatal("error occurred while deleting item from dynamodb")
-//	}
-//}
+func DeleteItem(t *testing.T, id string) {
+	db, err := GetDynamoDB()
+	if err != nil{
+		t.Fatal("error occurred while connecting to dynamodb")
+	}
+	deleteItemInput := &dynamodb.DeleteItemInput{
+		TableName: aws.String(os.Getenv("TABLE_NAME")),
+		KEY: map[string]*dynamodb.AttributeValue{
+			"id": &dynamodb.AttributeValue{
+				S: aws.String(id),
+			},
+		},
+	}
+	_, err = db.DeleteItem(deleteItemInput)
+	if err != nil{
+		t.Fatal("error occurred while deleting item from dynamodb")
+	}
+}

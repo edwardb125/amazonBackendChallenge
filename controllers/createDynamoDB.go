@@ -3,7 +3,6 @@ package controllers
 import (
 	"amazonBackendChallenge/models"
 	"amazonBackendChallenge/service"
-	_ "amazonBackendChallenge/service"
 	"encoding/json"
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/credentials"
@@ -13,7 +12,6 @@ import (
 	"net/http"
 	"os"
 	"testing"
-	_ "testing"
 )
 
 type Error struct{

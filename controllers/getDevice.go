@@ -12,7 +12,7 @@ import (
 func GetDevice(w http.ResponseWriter, r *http.Request) {
 	w.Header().Add("Content-Type", "application/json")
 
-	// connect to dynamoDB
+	// connect to dynamoDB in this lines
 	db, err := GetDynamoDB()
 	if err != nil {
 		log.Println(err)

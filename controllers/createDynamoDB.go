@@ -31,7 +31,7 @@ func GetDynamoDB() (*dynamodb.DynamoDB, error){
 	// Set environment Token
 	accessToken := os.Getenv("ACCESS_TOKEN")
 	secretKey := os.Getenv("SECRET_KEY")
-	region := os.Getenv("AWS_REGION")
+	region := "us-west-1"
 	credential := credentials.NewStaticCredentials(accessToken, secretKey, "")
 	awsSession, err := session.NewSession(&aws.Config{
 		Region: aws.String(region),

@@ -24,7 +24,7 @@ jobs:
         env:
           ACCESS_TOKEN: ${{ secrets.AWS_ACCESS_KEY_ID }}
           SECRET_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_REGION: ${{ secrets.AWS_REGION }}
+          AWS_REGION: us-west-1
       - name: Build
         run: env GOOS=linux go build -o bin/main main.go
 

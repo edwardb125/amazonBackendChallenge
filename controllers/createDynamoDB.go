@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"fmt"
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/credentials"
 	"github.com/aws/aws-sdk-go/aws/session"
@@ -46,6 +47,7 @@ func ConnectDynamoDB() (*dynamodb.DynamoDB, error){
 	})
 
 	if err != nil{
+		fmt.Println("fdfdfdfdfasdflkdasjfflkdsjfljdlfjsd")
 		log.Println(err)
 		return &dynamodb.DynamoDB{}, err
 	}

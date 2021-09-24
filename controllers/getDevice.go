@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"amazonBackendChallenge/dynamoDB"
 	"amazonBackendChallenge/service"
 	"encoding/json"
 	"github.com/gorilla/mux"
@@ -10,29 +9,44 @@ import (
 )
 
 func GetDevice(w http.ResponseWriter, r *http.Request) {
-	w.Header().Add("Content-Type", "application/json")
-
 	// connect to dynamoDB in this lines
-	db, err := GetDynamoDB()
+	db, err := ConnectDynamoDB()
+
 	if err != nil {
 		log.Println(err)
-		CreateError(w, "server error", http.StatusInternalServerError)
+		w.WriteHeader(500)
+		final, _ := json.Marshal(Error{
+			Message: "server error",
+		})
+		_, _ = w.Write(final)
 		return
 	}
 
 	vars := mux.Vars(r)
-	service := service.NewGetService(dynamoDB.NewDeviceDB(db))
+	service := &service.GetCore{
+		Db: db,
+	}
 	item, err := service.GetDevice(vars["id"])
+
 	if err != nil {
 		if err.Error() == "server error" {
-			CreateError(w, "server error", http.StatusInternalServerError)
+			w.WriteHeader(500)
+			final, _ := json.Marshal(Error{
+				Message: "server error",
+			})
+			_, _ = w.Write(final)
 		} else {
-			CreateError(w, "device not found", http.StatusNotFound)
+			w.WriteHeader(404)
+			final, _ := json.Marshal(Error{
+				Message: "device not found",
+			})
+			_, _ = w.Write(final)
 		}
 		return
 	}
 
-	w.WriteHeader(http.StatusOK)
+	w.Header().Add("Content-Type", "application/json")
+	w.WriteHeader(200)
 	result, _ := json.Marshal(item)
 	_, _ = w.Write(result)
 }

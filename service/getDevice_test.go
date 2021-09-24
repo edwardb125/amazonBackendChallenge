@@ -19,9 +19,9 @@ func TestGetDevice(t *testing.T) {
 		errorExpected  error
 		outputExpected models.Device
 	}{
-		{name: "getItem error",getItemError: errors.New("err"),errorExpected: errors.New("server error")},
-		{name:"not found",errorExpected: errors.New("device not found")},
-		{name:"ok",item: item,outputExpected: models.Device{Id: "1"}},
+		{name: "device not found",errorExpected: errors.New("device not found")},
+		{name: "get some errore in getItem",getItemError: errors.New("err"),errorExpected: errors.New("server error")},
+		{name: "well done",item: item,outputExpected: models.Device{Id: "1"}},
 	}
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
@@ -29,7 +29,9 @@ func TestGetDevice(t *testing.T) {
 			mockDB.On("GetItem", mock.Anything).Return(&dynamodb.GetItemOutput{
 				Item: test.item,
 			}, test.getItemError)
-			service := NewGetService(mockDB)
+			service := &GetCore{
+				Db: mockDB,
+			}
 
 			output, err := service.GetDevice("")
 			if err == nil {
@@ -38,7 +40,6 @@ func TestGetDevice(t *testing.T) {
 				assert.Error(t, test.errorExpected, err.Error())
 			}
 			assert.Equal(t, test.outputExpected, output)
-
 		})
 	}
 }

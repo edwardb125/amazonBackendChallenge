@@ -12,14 +12,14 @@ import (
 )
 
 type CreateCore struct{
-	db dynamoDB.DeviceDynamoDB
+	Db dynamoDB.DeviceDynamoDB
 }
 
-func NewCreateService(db dynamoDB.DeviceDynamoDB) *CreateCore {
-	return &CreateCore{
-		db: db,
-	}
-}
+//func NewCreateService(db dynamoDB.DeviceDynamoDB) *CreateCore {
+//	return &CreateCore{
+//		Db: db,
+//	}
+//}
 
 func (d *CreateCore) CreateDevice(entity models.Device) error {
 	device, _ := dynamodbattribute.MarshalMap(entity)
@@ -27,7 +27,7 @@ func (d *CreateCore) CreateDevice(entity models.Device) error {
 		Item:      device,
 		TableName: aws.String(os.Getenv("TABLE_NAME")),
 	}
-	_, err := d.db.PutItem(input)
+	_, err := d.Db.PutItem(input)
 	if err != nil {
 		log.Println(err)
 		return errors.New("server error")

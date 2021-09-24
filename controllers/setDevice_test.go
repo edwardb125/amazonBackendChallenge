@@ -17,11 +17,11 @@ func TestGetDeviceController(t *testing.T) {
 	_ = os.Unsetenv("AWS_REGION")
 	_ = os.Unsetenv("TABLE_NAME")
 	input := models.Device{
-		Id:          "333",
-		DeviceModel: "a",
-		Name:        "a",
-		Note:        "a",
-		Serial:      "a",
+		Id:          "ididid",
+		DeviceModel: "test",
+		Name:        "test",
+		Note:        "test",
+		Serial:      "test",
 	}
 	tests := []struct {
 		name   string
@@ -29,15 +29,15 @@ func TestGetDeviceController(t *testing.T) {
 		status int
 		output interface{}
 	}{
-		{name: "invalid input", input: models.Device{
+		{name: "server error", input: input, status: 500, output: Error{
+			Message: "server error",
+		}},
+		{name: "input is invalid", input: models.Device{
 			Id: "1",
 		}, status: 400, output: Error{
 			Message: "invalid device info",
 		}},
-		{name: "server error", input: input, status: 500, output: Error{
-			Message: "server error",
-		}},
-		{name: "ok", input: input, status: 201, output: input},
+		{name: "well done", input: input, status: 201, output: input},
 	}
 
 	for _, test := range tests {
@@ -52,23 +52,21 @@ func TestGetDeviceController(t *testing.T) {
 			marshal, _ := json.Marshal(test.input)
 			req, _ := http.NewRequest(http.MethodPost, "/devices", bytes.NewBuffer(marshal))
 
-			rr := httptest.NewRecorder()
+			res := httptest.NewRecorder()
+			router.ServeHTTP(res, req)
+			assert.Equal(t, test.status, res.Code)
 
-			router.ServeHTTP(rr, req)
-			assert.Equal(t, test.status, rr.Code)
-			if rr.Code == 201 {
+			if res.Code == 201 {
 				var device models.Device
-				_ = json.Unmarshal(rr.Body.Bytes(), &device)
+				_ = json.Unmarshal(res.Body.Bytes(), &device)
 				assert.Equal(t, test.output.(models.Device), device)
 			} else {
 				var err Error
-				_ = json.Unmarshal(rr.Body.Bytes(), &err)
+				_ = json.Unmarshal(res.Body.Bytes(), &err)
 				assert.Equal(t, test.output.(Error), err)
 			}
-
 		})
 	}
-	//clear data in dynamoDB
-	DeleteItem(t, input.Id)
+	DeleteDeviceId(t, input.Id)
 
 }

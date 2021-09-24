@@ -11,16 +11,9 @@ import (
 	"os"
 )
 
-//NewGetService is function for create new core for handler lambada
-func NewGetService(db dynamoDB.DeviceDynamoDB) *GetCore {
-	return &GetCore{
-		db: db,
-	}
-}
-
 //GetCore is struct for handle request, dynamoDB client and marshalMap are dependency injection
 type GetCore struct {
-	db dynamoDB.DeviceDynamoDB
+	Db dynamoDB.DeviceDynamoDB
 }
 
 //GetDevice is a lambda for handle post request from api Getway
@@ -34,7 +27,7 @@ func (d *GetCore) GetDevice(id string) (models.Device, error) {
 		TableName: aws.String(os.Getenv("TABLE_NAME")),
 		Key:       key,
 	}
-	result, err := d.db.GetItem(getItemInput)
+	result, err := d.Db.GetItem(getItemInput)
 	if err != nil {
 		log.Println(err)
 		return models.Device{}, errors.New("server error")

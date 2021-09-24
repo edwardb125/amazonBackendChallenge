@@ -17,14 +17,16 @@ func TestCreateService(t *testing.T) {
 		putItemError  error
 		errorExpected error
 	}{
-		{name: "ok"},
-		{name:"service error",putItemError: errors.New("error"),errorExpected: errors.New("server error")},
+		{name: "well done"},
+		{name:"service error occurred",putItemError: errors.New("error"),errorExpected: errors.New("server error")},
 	}
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
 			mockDB := new(mocks.DeviceDynamoDB)
 			mockDB.On("PutItem", mock.Anything).Return(&dynamodb.PutItemOutput{}, test.putItemError)
-			service := NewCreateService(mockDB)
+			service := &CreateCore{
+				Db: mockDB,
+			}
 
 			err := service.CreateDevice(models.Device{})
 			if err == nil {

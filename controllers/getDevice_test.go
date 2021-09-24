@@ -45,16 +45,19 @@ func TestName(t *testing.T) {
 	}{
 		{name: "not found error", status: 404, output: Error{
 			Message: "device not found",
-		}, id: "ididid"},
+		}, id: "wrongId"},
+		{name: "well done", status: 200, output: input, id: input.Id},
 		{name: "server error", status: 500, output: Error{
 			Message: "server error",
 		}, id: "ididid"},
-		{name: "well done", status: 200, output: input, id: input.Id},
 	}
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
 			if test.name != "server error" {
-				_ = os.Setenv("AWS_REGION", "us-west-2")
+				_ = os.Setenv("AWS_REGION", "us-west-1")
+				_ = os.Setenv("TABLE_NAME", "Devices")
+			} else{
+				_ = os.Unsetenv("AWS_REGION")
 				_ = os.Setenv("TABLE_NAME", "Devices")
 			}
 			router := mux.NewRouter()

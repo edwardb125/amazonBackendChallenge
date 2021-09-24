@@ -4,6 +4,7 @@ import (
 	"amazonBackendChallenge/models"
 	"amazonBackendChallenge/service"
 	"encoding/json"
+	"fmt"
 	"github.com/gorilla/mux"
 	"github.com/stretchr/testify/assert"
 	"net/http"
@@ -59,7 +60,9 @@ func TestName(t *testing.T) {
 			} else{
 				_ = os.Unsetenv("AWS_REGION")
 				_ = os.Setenv("TABLE_NAME", "Devices")
+				fmt.Print(os.Getenv("AWS_REGION"))
 			}
+
 			router := mux.NewRouter()
 			router.HandleFunc("/devices/{id}", GetDevice).Methods("GET")
 			req, _ := http.NewRequest(http.MethodGet, "/devices/"+test.id, nil)

@@ -44,13 +44,14 @@ func TestName(t *testing.T) {
 		status int
 		output interface{}
 	}{
+		{name: "server error", status: 500, output: Error{
+			Message: "server error",
+		}, id: "ididid"},
 		{name: "not found error", status: 404, output: Error{
 			Message: "device not found",
 		}, id: "wrongId"},
 		{name: "well done", status: 200, output: input, id: input.Id},
-		{name: "server error", status: 500, output: Error{
-			Message: "server error",
-		}, id: "ididid"},
+
 	}
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {

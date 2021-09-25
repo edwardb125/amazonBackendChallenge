@@ -15,11 +15,6 @@ type CreateCore struct{
 	Db dynamoDB.DeviceDynamoDB
 }
 
-//func NewCreateService(db dynamoDB.DeviceDynamoDB) *CreateCore {
-//	return &CreateCore{
-//		Db: db,
-//	}
-//}
 
 func (d *CreateCore) CreateDevice(entity models.Device) error {
 	device, _ := dynamodbattribute.MarshalMap(entity)

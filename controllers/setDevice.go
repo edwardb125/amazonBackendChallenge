@@ -27,7 +27,6 @@ func SetDevice(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	//dynamoDB.DoWithDynamoDB(w,device)
 	//connect to the dynamoDB
 	db, err := ConnectDynamoDB() // this function should be created
 	if err != nil {

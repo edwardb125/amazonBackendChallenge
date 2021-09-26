@@ -21,9 +21,10 @@ func TestGetDevice(t *testing.T) {
 		errorExpected  error
 		outputExpected models.Device
 	}{
+		// test 3 position
 		{name: "device not found",errorExpected: errors.New("device not found")},
 		{name: "get some errore in getItem",getItemError: errors.New("err"),errorExpected: errors.New("server error")},
-		{name: "well done",item: item,outputExpected: models.Device{Id: "1"}},
+		{name: "well done",item: item,outputExpected: models.Device{Id: "ididid"}},
 	}
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {

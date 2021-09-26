@@ -11,7 +11,9 @@ import (
 	"testing"
 )
 func TestGetDevice(t *testing.T) {
+
 	item:=map[string]*dynamodb.AttributeValue{"id":&dynamodb.AttributeValue{S: aws.String("1")}}
+
 	tests := []struct {
 		name           string
 		item           map[string]*dynamodb.AttributeValue
@@ -34,12 +36,14 @@ func TestGetDevice(t *testing.T) {
 			}
 
 			output, err := service.GetDevice("")
+			// check that is has error or no
 			if err == nil {
 				assert.Nil(t, test.errorExpected)
 			} else {
 				assert.Error(t, test.errorExpected, err.Error())
 			}
 			assert.Equal(t, test.outputExpected, output)
+
 		})
 	}
 }

@@ -10,8 +10,8 @@ provider:
 
 
   environment:
-    ACCESS_TOKEN: ${env:AWS_ACCESS_KEY_ID }
-    SECRET_KEY: ${env:AWS_SECRET_ACCESS_KEY}
+    ACCESS: ${env:AWS_ACCESS_KEY_ID }
+    SECRET: ${env:AWS_SECRET_ACCESS_KEY}
     TABLE_NAME: Devices
 
 package:

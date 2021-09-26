@@ -30,6 +30,8 @@ func TestCreateService(t *testing.T) {
 			}
 
 			err := service.CreateDevice(models.Device{})
+
+			// check have error or no
 			if err == nil {
 				assert.Nil(t, test.errorExpected)
 			} else {

@@ -35,8 +35,8 @@ func DeleteDeviceId(t *testing.T, id string) {
 
 func ConnectDynamoDB() (*dynamodb.DynamoDB, error){
 	// Set environment Token
-	accessToken := os.Getenv("ACCESS_TOKEN")
-	secretKey := os.Getenv("SECRET_KEY")
+	accessToken := os.Getenv("ACCESS")
+	secretKey := os.Getenv("SECRET")
 	region := os.Getenv("AWS_REGION")
 	temp := credentials.NewStaticCredentials(accessToken, secretKey, "")
 	awsSession, err := session.NewSession(&aws.Config{

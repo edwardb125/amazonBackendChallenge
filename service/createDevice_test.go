@@ -17,6 +17,7 @@ func TestCreateService(t *testing.T) {
 		putItemError  error
 		errorExpected error
 	}{
+		// test 2 position
 		{name: "well done"},
 		{name:"service error occurred",putItemError: errors.New("error"),errorExpected: errors.New("server error")},
 	}

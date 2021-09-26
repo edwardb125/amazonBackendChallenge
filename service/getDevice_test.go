@@ -13,7 +13,7 @@ import (
 func TestGetDevice(t *testing.T) {
 
 	item:=map[string]*dynamodb.AttributeValue{"id":&dynamodb.AttributeValue{S: aws.String("1")}}
-
+	// test structure
 	tests := []struct {
 		name           string
 		item           map[string]*dynamodb.AttributeValue
@@ -21,7 +21,7 @@ func TestGetDevice(t *testing.T) {
 		errorExpected  error
 		outputExpected models.Device
 	}{
-		// test 3 position
+		// 3 test for  not found and error in getItem and well done
 		{name: "device not found",errorExpected: errors.New("device not found")},
 		{name: "get some errore in getItem",getItemError: errors.New("err"),errorExpected: errors.New("server error")},
 		{name: "well done",item: item,outputExpected: models.Device{Id: "1"}},

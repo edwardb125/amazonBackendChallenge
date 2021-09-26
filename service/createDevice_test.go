@@ -17,7 +17,7 @@ func TestCreateService(t *testing.T) {
 		putItemError  error
 		errorExpected error
 	}{
-		// test 2 position
+		// 2 test for done and server error
 		{name: "well done"},
 		{name:"service error occurred",putItemError: errors.New("error"),errorExpected: errors.New("server error")},
 	}
@@ -30,6 +30,8 @@ func TestCreateService(t *testing.T) {
 			}
 
 			err := service.CreateDevice(models.Device{})
+
+			// check have error or no
 			if err == nil {
 				assert.Nil(t, test.errorExpected)
 			} else {

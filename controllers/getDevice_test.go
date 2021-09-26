@@ -14,6 +14,7 @@ import (
 )
 
 func TestName(t *testing.T) {
+	// models
 	input := models.Device{
 		Id:          "ididid",
 		DeviceModel: "test",
@@ -44,6 +45,7 @@ func TestName(t *testing.T) {
 		status int
 		output interface{}
 	}{
+		// 3 test for status 500, 404, 200
 		{name: "server error", status: 500, output: Error{
 			Message: "server error",
 		}, id: "ididid"},
@@ -71,6 +73,7 @@ func TestName(t *testing.T) {
 			router.ServeHTTP(res, req)
 			assert.Equal(t, test.status, res.Code)
 
+			// check status
 			if test.status == 200 {
 				var device models.Device
 				_ = json.Unmarshal(res.Body.Bytes(), &device)

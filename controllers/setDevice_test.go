@@ -30,6 +30,7 @@ func TestGetDeviceController(t *testing.T) {
 		status int
 		output interface{}
 	}{
+		// 3 test for 400, 500, 201
 		{name: "invalid", input: models.Device{
 			Id: "falseID",
 			DeviceModel: "test",
@@ -63,6 +64,7 @@ func TestGetDeviceController(t *testing.T) {
 			router.ServeHTTP(res, req)
 			assert.Equal(t, test.status, res.Code)
 
+			// check status
 			if res.Code == 201 {
 				var device models.Device
 				_ = json.Unmarshal(res.Body.Bytes(), &device)

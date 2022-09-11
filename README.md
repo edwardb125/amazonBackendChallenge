@@ -1,8 +1,5 @@
 # Amazon backend challenge
 
-## API
-url : https://iwdbb9h2y1.execute-api.us-west-1.amazonaws.com/api/devices
-
 ## Project description
 main.go file set router with gorilla mux and call SetDevice for post method and GetDevice for Get methode from controllers package.
 
